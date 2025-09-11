@@ -4,17 +4,15 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Authentication Language Lines
+    | Authentication Language Lines (Hindi)
     |--------------------------------------------------------------------------
     |
-    | The following language lines are used during authentication for various
-    | messages that we need to display to the user. You are free to modify
-    | these language lines according to your application's requirements.
+    | लॉगिन और प्रमाणीकरण (authentication) से जुड़े संदेश।
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'password' => 'The provided password is incorrect.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'failed' => 'ये प्रमाण-पत्र हमारे रिकॉर्ड से मेल नहीं खाते।',
+    'password' => 'दिया गया पासवर्ड गलत है।',
+    'throttle' => 'बहुत अधिक लॉगिन प्रयास किए गए हैं। कृपया :seconds सेकंड बाद पुनः प्रयास करें।',
 
 ];
