@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         Shop::all()->each(function ($shop) {
-            User::factory(2)->create([
+            User::factory(1)->create([
                 'shop_id' => $shop->id,
             ]);
         });
