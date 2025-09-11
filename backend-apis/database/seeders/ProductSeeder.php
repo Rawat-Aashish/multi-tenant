@@ -1,0 +1,23 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Product;
+use App\Models\Shop;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class ProductSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        Shop::all()->each(function ($shop) {
+            Product::factory(10)->create([
+                'shop_id' => $shop->id,
+            ]);
+        });
+    }
+}
