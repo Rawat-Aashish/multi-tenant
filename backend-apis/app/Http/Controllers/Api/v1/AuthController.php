@@ -36,7 +36,7 @@ class AuthController extends Controller
         $user->currentAccessToken()->delete();
 
         return response()->json([
-            'message' => __("message.logout_successful"),
+            'message' => __("messages.logout_successful"),
             'status' => 1
         ], 200);
     }

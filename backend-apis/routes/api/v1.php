@@ -15,5 +15,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['prefix' => 'products/'], function () {
         Route::get('list', [ProductController::class, 'list']);
+        Route::post('create', [ProductController::class, 'store']);
+        Route::patch('update/{product}', [ProductController::class, 'update']);
+        Route::delete('delete/{product}', [ProductController::class,'delete']);
+
+        Route::post('order', [ProductController::class, 'placeOrder']);
     });
 });
