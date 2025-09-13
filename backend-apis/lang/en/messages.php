@@ -11,6 +11,7 @@ return [
     "product_created_success" => "Product Created Successfully",
     "product_updated_success" => "Product Updated Successfully",
     "product_does_not_belong_to_shop" => "Cannot :action product as it does not belong to your shop.",
+    "product_view_success" => "Product Viewed Successfully",
 
     //Orders
     "quantity_shortage" => "Order cannot be placed as one or more products is out of stock",

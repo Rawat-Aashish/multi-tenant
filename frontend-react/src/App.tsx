@@ -1,24 +1,26 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import LoginPage from './pages/login';
-import PrivateRoute from './components/privateroute';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
 import ProductsPage from './pages/Products';
+import CreateProductPage from './pages/CreateProductPage';
+import EditProductPage from './pages/EditProductPage';
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/products" element={<PrivateRoute />}>
-          <Route index element={<ProductsPage />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
-      <ToastContainer />
-    </Router>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/products" element={<ProductsPage />} />
+      <Route path="/products/create" element={<CreateProductPage />} />
+      <Route path="/products/edit/:id" element={<EditProductPage />} />
+      <Route path="/" element={<ProductsPage />} />
+    </Routes>
   );
 };
 
-export default App;
+const AppWrapper = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default AppWrapper;

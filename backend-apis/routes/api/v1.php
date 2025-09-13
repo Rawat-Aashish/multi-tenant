@@ -20,6 +20,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => 'products/', 'middleware' => 'RBAC:' . User::ROLE_SHOP_OWNER], function () {
         Route::get('list', [ProductController::class, 'list'])->withoutMiddleware('RBAC:' . User::ROLE_SHOP_OWNER);
         Route::post('create', [ProductController::class, 'store']);
+        Route::get('view/{product}', [ProductController::class, 'view']);
         Route::patch('update/{product}', [ProductController::class, 'update']);
         Route::delete('delete/{product}', [ProductController::class, 'delete']);
     });

@@ -92,7 +92,6 @@ const Cart: React.FC<CartProps> = ({
       toast.success(response.data.message || "Order placed successfully!", { position: "top-center" });
       setCartItems([]);
       localStorage.removeItem('cart');
-      toast.dismiss(); // Dismiss all toasts before closing the cart
       setIsCartOpen(false);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {

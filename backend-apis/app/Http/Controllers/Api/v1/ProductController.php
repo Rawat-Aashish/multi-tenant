@@ -123,4 +123,13 @@ class ProductController extends Controller
             ], 500);
         }
     }
+
+    public function view(Product $product)
+    {
+        return response()->json([
+            "message" => __("messages.product_view_success"),
+            "data" => $product,
+            "status" => 1
+        ], 200);
+    }
 }

@@ -64,7 +64,7 @@ class OrderController extends Controller
         }
 
 
-        $logs = $logs->paginate($request->per_page ?? 10);
+        $logs = $logs->orderBy('id', 'DESC')->paginate($request->per_page ?? 10);
 
         return response()->json([
             "message" => __("messages.notifications_fetched_successfully"),
