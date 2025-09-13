@@ -1,61 +1,119 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Backend APIs Documentation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This folder contains the Laravel-based REST API backend for the multi-tenant e-commerce evaluation project.
 
-## About Laravel
+## 🚀 Getting Started
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+After setting up the project following the main README instructions, you can interact with these APIs using the provided Postman collection.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+📎 **[Download Postman Collection](link-to-postman-collection)**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🔗 API Endpoints Overview
 
-## Learning Laravel
+The following endpoints are available for interacting with the multi-tenant system:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```
+POST       api/v1/login
+POST       api/v1/logout
+GET        api/v1/logs
+POST       api/v1/place-order
+POST       api/v1/products/create
+DELETE     api/v1/products/delete/{product}
+GET        api/v1/products/list
+PATCH      api/v1/products/update/{product}
+GET        api/v1/products/view/{product}
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 📖 API Documentation
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 🔐 Authentication Endpoints
 
-## Laravel Sponsors
+#### `POST api/v1/login`
+**Purpose:** User authentication endpoint  
+**Description:** Allows users to log in and obtain access tokens for subsequent API calls. Required for accessing all protected endpoints.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+#### `POST api/v1/logout`
+**Purpose:** User logout  
+**Description:** Terminates the current user session and invalidates the access token.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 🛍️ Product Management Endpoints
 
-## Contributing
+#### `POST api/v1/products/create`
+**Purpose:** Create new products  
+**Access:** Shop Owner only  
+**Description:** Allows shop owners to add new products to their inventory. Products are automatically associated with the authenticated shop owner's store, ensuring proper tenant isolation.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### `DELETE api/v1/products/delete/{product}`
+**Purpose:** Delete products  
+**Access:** Shop Owner only  
+**Description:** Removes a product from the shop's inventory. Only the shop owner associated with the product can delete it, ensuring data security across tenants.
 
-## Code of Conduct
+#### `PATCH api/v1/products/update/{product}`
+**Purpose:** Update existing products  
+**Access:** Shop Owner only  
+**Description:** Allows shop owners to modify their product details such as name, price, description, and inventory levels. Only products belonging to the authenticated shop owner can be updated.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### `GET api/v1/products/list`
+**Purpose:** Retrieve product listings  
+**Access:** All authenticated users  
+**Description:** Returns product data based on user role:
+- **Shop Owners:** See only products from their own shop
+- **Customers:** See products from all shops for browsing and purchasing
 
-## Security Vulnerabilities
+#### `GET api/v1/products/view/{product}`
+**Purpose:** View specific product details  
+**Access:** All authenticated users  
+**Description:** Retrieves detailed information about a specific product, including specifications, pricing, and availability.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+### 🛒 Order Management Endpoints
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### `POST api/v1/place-order`
+**Purpose:** Place new orders  
+**Access:** Customer only  
+**Description:** Allows customers to create orders for multiple products from different shops. Supports multi-product ordering with proper inventory management and shop notifications.
+
+---
+
+### 📊 Notification & Logging Endpoints
+
+#### `GET api/v1/logs`
+**Purpose:** Retrieve user notifications and activity logs  
+**Access:** All authenticated users  
+**Description:** Returns relevant notifications based on user role:
+- **Customers:** Order status updates, shipping notifications, and purchase confirmations
+- **Shop Owners:** New order alerts, inventory notifications, and sales updates
+
+---
+
+## 🔒 Security & Multi-Tenancy
+
+This API implements robust multi-tenant architecture with the following security measures:
+
+- **Role-based access control** (Shop Owner vs Customer permissions) implemented using a custom middleware named `RoleAccessControlMiddleware`
+- **Data isolation** ensuring shops can only access and perform actions on their own resources, enforced through Laravel policies
+- **Authentication required** for all endpoints except login, implemented with Laravel Sanctum
+- **Tenant-specific filtering** on all data queries
+
+## 🧪 Testing
+
+### Postman Collection
+Use the provided Postman collection to test all endpoints with pre-configured requests and proper authentication headers. Each endpoint includes example payloads and expected responses.
+
+### Automated Tests
+The project includes comprehensive automated tests for code quality assurance. You can review the following test files:
+
+- `ProductApiTest.php` - API endpoint testing
+- `ProductServiceTest.php` - Service layer testing
+
+**Run tests with:**
+```bash
+php artisan test
+```
+
+---
+
+*For frontend integration details, refer to the main project README and the frontend-react documentation.*

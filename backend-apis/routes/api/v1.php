@@ -7,10 +7,6 @@ use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
-Route::get('test', function () {
-    return 'this is in v1';
-});
-
 Route::post('login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
