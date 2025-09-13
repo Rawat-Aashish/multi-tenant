@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\v1;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserLoginRequest extends FormRequest
 {
@@ -22,7 +23,8 @@ class UserLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|exists:users,email',
+            'is_shop_owner' => 'required|boolean',
+            'email' => ['required','email', Rule::exists($this->is_shop_owner ? 'users' : 'customers', 'email')],
             'password' => 'required',
         ];
     }
@@ -32,7 +34,7 @@ class UserLoginRequest extends FormRequest
         return [
             'email.required' => 'Email is required',
             'email.email' => 'Email is invalid',
-            'email.exists' => 'User with this email does not exist',
+            'email.exists' => $this->is_shop_owner ? 'User with this email does not exist' : 'Customer with this email does not exist',
             'password.required' => 'Password is required',
         ];
     }

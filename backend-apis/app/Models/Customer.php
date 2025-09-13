@@ -4,15 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 class Customer extends Model
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens;
 
     //public $timestamps = false;
 
     //TABLE
     public $table = 'customers';
+
+    const ROLE_CUSTOMER = 'CUSTOMER';
 
     //FILLABLE
     protected $fillable = [
@@ -23,14 +26,19 @@ class Customer extends Model
     ];
 
     //HIDDEN
-    protected $hidden = [];
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'created_at',
+        'updated_at'
+    ];
 
     //APPENDS
     protected $appends = [];
 
     //WITH
     protected $with = [];
-
+    
     //CASTS
     protected $casts = [];
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\ListRequest;
+use App\Http\Requests\Api\v1\PlaceOrderRequest;
 use App\Http\Requests\Api\v1\ProductCreationRequest;
 use App\Http\Requests\Api\v1\ProductUpdateRequest;
 use App\Models\Product;
@@ -116,9 +117,5 @@ class ProductController extends Controller
                 "status" => 0
             ], 500);
         }
-    }
-
-    public function placeOrder(){
-        
     }
 }

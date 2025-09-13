@@ -25,6 +25,8 @@ class User extends Authenticatable
         'password'
     ];
 
+    const ROLE_SHOP_OWNER = 'SHOP_OWNER';
+
     /**
      * The attributes that should be hidden for serialization.
      *

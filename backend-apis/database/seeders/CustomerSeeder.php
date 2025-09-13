@@ -14,6 +14,7 @@ class CustomerSeeder extends Seeder
      */
     public function run(): void
     {
+        Customer::factory(2)->create();
         Customer::all()->each(function ($customer) {
             Order::factory(2)->create([
                 'customer_id' => $customer->id,
