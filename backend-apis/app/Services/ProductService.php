@@ -16,6 +16,8 @@ class ProductService
 {
     protected $partialOrdersAllowed;
     protected $customerId;
+    protected $isFromJob = false;
+
     public function processOrder(array $request, int $customerId)
     {
         try {
@@ -31,10 +33,6 @@ class ProductService
                     "stackTrace" => $e->getTraceAsString()
                 ]
             );
-            return [
-                'message' => "Some error occured while processing the order",
-                'status' => 0
-            ];
         }
     }
 
@@ -61,10 +59,14 @@ class ProductService
             return $this->deductQuantity($request);
         }
 
-        return [
-            'message' => __("messages.quantity_shortage"),
-            'status' => 0
-        ];
+        $result = $this->isFromJob
+            ? false
+            : [
+                'message' => __("messages.quantity_shortage"),
+                'status' => 0
+            ];
+            
+        return $result;
     }
 
 
@@ -106,10 +108,12 @@ class ProductService
             }
 
             if (empty($orderPlacedForProductDetail)) {
-                return [
-                    'message' => __("messages.quantity_shortage"),
-                    'status' => 0
-                ];
+                $result = $this->isFromJob
+                    ? false
+                    : [
+                        'message' => __("messages.quantity_shortage"),
+                        'status' => 0
+                    ];
             }
 
             $result = $this->placeOrder($orderPlacedForProductDetail);
@@ -170,10 +174,14 @@ class ProductService
             OrderNotification::insert(array_filter($notifications, fn($n) => $n['recipient_id'] !== null));
         }
 
-        return [
-            'message' => __("messages.order_created_success"),
-            'status'  => 1,
-        ];
+        $result = $this->isFromJob
+            ? true
+            : [
+                'message' => __("messages.order_created_success"),
+                'status'  => 1,
+            ];
+
+        return $result;
     }
 
     private function notifySkippedProducts(array $skippedProducts)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\ListRequest;
 use App\Http\Requests\Api\v1\PlaceOrderRequest;
+use App\Jobs\PlaceOrderJob;
 use App\Models\Customer;
 use App\Models\OrderNotification;
 use App\Models\User;
@@ -26,7 +27,14 @@ class OrderController extends Controller
     public function placeOrder(PlaceOrderRequest $request)
     {
         try {
-            return $this->productService->processOrder($request->all(), Auth::user()->id);
+            // return $this->productService->processOrder($request->all(), Auth::user()->id);
+            $customerId = Auth::user()->id;
+            PlaceOrderJob::dispatch($request->all(), $customerId);
+
+            return response()->json([
+                'message' => 'Order request received. Processing in background.',
+                'status' => 1
+            ]);
         } catch (\Exception $e) {
             Log::channel('products')->error(
                 "Failed ordering the product",
