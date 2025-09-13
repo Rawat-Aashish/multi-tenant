@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\v1\PlaceOrderRequest;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
@@ -21,7 +22,7 @@ class OrderController extends Controller
     public function placeOrder(PlaceOrderRequest $request)
     {
         try {
-            return $this->productService->processOrder($request->all());
+            return $this->productService->processOrder($request->all(), Auth::user()->id);
         } catch (\Exception $e) {
             Log::channel('products')->error(
                 "Failed ordering the product",

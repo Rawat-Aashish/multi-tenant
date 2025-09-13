@@ -13,6 +13,7 @@ return [
     "product_does_not_belong_to_shop" => "Cannot :action product as it does not belong to your shop.",
 
     //Orders
-    "quantity_shortage" => "Order cannot be placed as one or more products is out of stock"
+    "quantity_shortage" => "Order cannot be placed as one or more products is out of stock",
+    "order_created_success" => "Order Created Successfully"
     
 ];

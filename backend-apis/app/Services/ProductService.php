@@ -11,17 +11,20 @@ use Illuminate\Support\Facades\Log;
 class ProductService
 {
     protected $partialOrdersAllowed;
-    public function processOrder(array $request)
+    protected $customerId;
+    public function processOrder(array $request, int $customerId)
     {
         try {
             $this->partialOrdersAllowed = (bool)$request['allow_partial_order'];
+            $this->customerId = $customerId;
             return $this->checkAvailability($request);
         } catch (\Exception $e) {
             Log::channel('products')->error(
                 "Failed ordering the product",
                 [
                     "requestData" => $request,
-                    "error" => $e->getMessage()
+                    "error" => $e->getMessage(),
+                    "stackTrace" => $e->getTraceAsString()
                 ]
             );
             return [
@@ -68,7 +71,7 @@ class ProductService
         return DB::transaction(function () use ($request, &$orderPlacedForProductDetail) {
             $productIds = collect($request['products'])->pluck('id');
 
-            $products = Product::select(['id', 'stock', 'price'])
+            $products = Product::select(['id', 'stock', 'price', 'shop_id'])
                 ->whereIn('id', $productIds)
                 ->orderBy('id')
                 ->lockForUpdate()
@@ -86,6 +89,7 @@ class ProductService
                         'id' => $product->id,
                         'quantity' => (int)$productDetail['quantity'],
                         'price' => $product->price,
+                        'shop_id' => $product->shop_id,
                     ];
                 }
             }
@@ -103,27 +107,32 @@ class ProductService
 
     private function placeOrder(array $products)
     {
-        try {
+        $productsGroupedByShop = collect($products)->groupBy('shop_id');
+
+        foreach ($productsGroupedByShop as $shopId => $shopProducts) {
             $order = Order::create([
-                'shop_id' => 1,
-                'customer_id' => 1
+                'shop_id'     => $shopId,
+                'customer_id' => $this->customerId,
             ]);
 
             $orderItems = [];
-            foreach ($products as $product) {
+            foreach ($shopProducts as $product) {
                 $orderItems[] = [
-                    'order_id' => $order->id,
+                    'order_id'   => $order->id,
                     'product_id' => $product['id'],
-                    'quantity' => $product['quantity'],
-                    'price' => $product['price'],
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'quantity'   => $product['quantity'],
+                    'price'      => $product['price'],
+                    'created_at' => now()->toDateTimeString(),
+                    'updated_at' => now()->toDateTimeString(),
                 ];
             }
 
             OrderItem::insert($orderItems);
-        } catch (\Exception $e) {
-            throw $e;
         }
+
+        return [
+            'message' => __("messages.order_created_success"),
+            'status'  => 1,
+        ];
     }
 }
