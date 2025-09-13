@@ -14,6 +14,7 @@ return [
 
     //Orders
     "quantity_shortage" => "Order cannot be placed as one or more products is out of stock",
-    "order_created_success" => "Order Created Successfully"
+    "order_created_success" => "Order Created Successfully",
+    "notifications_fetched_successfully" => "Notifications Fetched Successfully"
     
 ];

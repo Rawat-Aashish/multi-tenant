@@ -25,7 +25,7 @@ class User extends Authenticatable
         'password'
     ];
 
-    const ROLE_SHOP_OWNER = 'SHOP_OWNER';
+    const ROLE_SHOP_OWNER = 'SHOP OWNER';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -58,5 +58,10 @@ class User extends Authenticatable
     public function shop()
     {
         return $this->belongsTo(Shop::class);
+    }
+
+    public function notifications()
+    {
+        return $this->morphMany(OrderNotification::class, 'recipient');
     }
 }

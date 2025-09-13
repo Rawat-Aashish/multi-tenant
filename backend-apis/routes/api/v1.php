@@ -15,6 +15,7 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('logs', [OrderController::class, 'logs']);
 
     Route::group(['prefix' => 'products/', 'middleware' => 'RBAC:' . User::ROLE_SHOP_OWNER], function () {
         Route::get('list', [ProductController::class, 'list']);

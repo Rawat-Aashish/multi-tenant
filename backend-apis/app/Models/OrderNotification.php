@@ -5,28 +5,31 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Shop extends Model
+class OrderNotification extends Model
 {
     use HasFactory;
 
     //public $timestamps = false;
 
     //TABLE
-    public $table = 'shops';
-    
-    const NEW_ORDER = "NEW ORDER";
+    public $table = 'order_notifications';
 
     //FILLABLE
     protected $fillable = [
-        'name',
-        'address',
-        'phone',
+        'order_id',
+        'recipient_id',
+        'recipient_type',
+        'message',
+        'status'
     ];
 
     //HIDDEN
     protected $hidden = [
+        'recipient_type',
+        'recipient_id',
+        'order_id',
         'created_at',
-        'updated_at',
+        'updated_at'
     ];
 
     //APPENDS
@@ -39,19 +42,14 @@ class Shop extends Model
     protected $casts = [];
 
     //RELATIONSHIPS
-    public function users()
+    public function recipient()
     {
-        return $this->hasMany(User::class);
+        return $this->morphTo();
     }
 
-    public function products()
+    public function order()
     {
-        return $this->hasMany(Product::class);
-    }
-
-    public function customers()
-    {
-        return $this->hasMany(Customer::class);
+        return $this->belongsTo(Order::class);
     }
 
     //ATTRIBUTES

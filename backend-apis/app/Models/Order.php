@@ -14,6 +14,9 @@ class Order extends Model
     //TABLE
     public $table = 'orders';
 
+    const ORDER_PLACED = "ORDER PLACED";
+    const ORDER_SKIPPED = "ORDER SKIPPED";
+
     //FILLABLE
     protected $fillable = [
         'shop_id',

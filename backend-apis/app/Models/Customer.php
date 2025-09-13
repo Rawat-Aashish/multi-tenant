@@ -38,7 +38,7 @@ class Customer extends Model
 
     //WITH
     protected $with = [];
-    
+
     //CASTS
     protected $casts = [];
 
@@ -53,6 +53,11 @@ class Customer extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function notifications()
+    {
+        return $this->morphMany(OrderNotification::class, 'recipient');
+    }
+    
     //ATTRIBUTES
     //public function getExampleAttribute()
     //{
