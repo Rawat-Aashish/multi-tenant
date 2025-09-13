@@ -17,4 +17,5 @@ return [
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'unauthorized_to_access_api' => 'You are not authorized to access this API.',
+    'user_login' => 'User logged in successfully',
 ];
