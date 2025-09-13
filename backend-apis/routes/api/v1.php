@@ -18,7 +18,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('logs', [OrderController::class, 'logs']);
 
     Route::group(['prefix' => 'products/', 'middleware' => 'RBAC:' . User::ROLE_SHOP_OWNER], function () {
-        Route::get('list', [ProductController::class, 'list']);
+        Route::get('list', [ProductController::class, 'list'])->withoutMiddleware('RBAC:' . User::ROLE_SHOP_OWNER);
         Route::post('create', [ProductController::class, 'store']);
         Route::patch('update/{product}', [ProductController::class, 'update']);
         Route::delete('delete/{product}', [ProductController::class, 'delete']);

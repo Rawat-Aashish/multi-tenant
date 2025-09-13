@@ -24,7 +24,10 @@ class Product extends Model
     ];
 
     //HIDDEN
-    protected $hidden = [];
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 
     //APPENDS
     protected $appends = [];

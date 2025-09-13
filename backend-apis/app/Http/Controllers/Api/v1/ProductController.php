@@ -8,6 +8,7 @@ use App\Http\Requests\Api\v1\PlaceOrderRequest;
 use App\Http\Requests\Api\v1\ProductCreationRequest;
 use App\Http\Requests\Api\v1\ProductUpdateRequest;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,9 +19,12 @@ class ProductController extends Controller
 {
     public function list(ListRequest $request)
     {
-        $loggedInUserShopId = Auth::user()->shop_id;
+        $loggedInUser = Auth::user();
+        $products = Product::query();
 
-        $products = Product::where("shop_id", $loggedInUserShopId);
+        if($loggedInUser->role == User::ROLE_SHOP_OWNER){
+            $products = $products->where("shop_id", $loggedInUser->shop_id);
+        }
 
         if ($request->has("search")) {
             $search = '%' . $request->search . '%';
@@ -31,6 +35,7 @@ class ProductController extends Controller
 
         return response()->json([
             "message" => __("messages.product_list_success"),
+            "total_pages" => $products->lastPage(),
             "data" => $products->items(),
             "status" => 1
         ], 200);
