@@ -13,6 +13,18 @@ class ShopSeeder extends Seeder
      */
     public function run(): void
     {
-        Shop::factory(3)->create();
+        // Shop::factory(3)->create();
+
+        Shop::create([
+            'name' => 'Havmore Ice Creams',
+            'address' => '123 Dairy Lane, Sweet Valley, Gujarat 390001',
+            'phone' => '+91 98765 43210',
+        ]);
+
+        Shop::create([
+            'name' => 'Belgian Waffle House',
+            'address' => '456 Waffle Street, Dessert District, Gujarat 390002',
+            'phone' => '+91 87654 32109',
+        ]);
     }
 }
