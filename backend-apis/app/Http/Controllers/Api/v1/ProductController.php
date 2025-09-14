@@ -7,6 +7,7 @@ use App\Http\Requests\Api\v1\ListRequest;
 use App\Http\Requests\Api\v1\PlaceOrderRequest;
 use App\Http\Requests\Api\v1\ProductCreationRequest;
 use App\Http\Requests\Api\v1\ProductUpdateRequest;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,6 +25,10 @@ class ProductController extends Controller
 
         if($loggedInUser->role == User::ROLE_SHOP_OWNER){
             $products = $products->where("shop_id", $loggedInUser->shop_id);
+        }
+
+        if($loggedInUser->role == Customer::ROLE_CUSTOMER){
+            $products = $products->with('shop');
         }
 
         if ($request->has("search")) {

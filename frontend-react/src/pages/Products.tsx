@@ -17,6 +17,9 @@ interface Product {
   price: string;
   stock: number;
   image_path?: string;
+  shop?: {
+    name: string;
+  };
 }
 
 interface CartItem extends Product {
@@ -41,6 +44,7 @@ const ProductsPage = () => {
 
   const userRole = sessionStorage.getItem('role');
   const token = sessionStorage.getItem("token");
+  const shopName = sessionStorage.getItem("shop_name");
 
   // ✅ Debounce effect for search
   useEffect(() => {
@@ -145,14 +149,45 @@ const ProductsPage = () => {
     }
   }, []);
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("role");
-    toast.dismiss();
-    toast.info('Logged out successfully.', {
-      position: "top-center",
-    });
-    navigate('/login', { replace: true });
+  const handleLogout = async () => {
+    if (!token) {
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("role");
+      sessionStorage.removeItem("shop_name");
+      navigate('/login', { replace: true });
+      return;
+    }
+  
+    try {
+      await axios.post(
+        `${API_BASE_URL}/logout`,
+        {}, // no body required
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      toast.success('Logged out successfully.', { position: "top-center" });
+    } catch (error) {
+      // even if API fails, clear session and redirect
+      if (axios.isAxiosError(error) && error.response) {
+        toast.error(error.response.data.message || 'Logout failed.', {
+          position: "top-center",
+        });
+      } else {
+        toast.error('An unexpected error occurred during logout.', {
+          position: "top-center",
+        });
+      }
+    } finally {
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("role");
+      sessionStorage.removeItem("shop_name");
+      toast.dismiss();
+      navigate('/login', { replace: true });
+    }
   };
 
   const handleAddToCart = (product: Product) => {
@@ -212,7 +247,7 @@ const ProductsPage = () => {
               onClick={() => navigate('/products/create')}
               className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-full shadow-md transition-colors duration-300"
             >
-              Create Product
+              Add Product
             </button>
           )}
           {userRole === 'CUSTOMER' && (
@@ -247,6 +282,13 @@ const ProductsPage = () => {
       <div className="flex">
         {/* Products Grid */}
         <div className="p-8 flex-1">
+          {userRole === "SHOP OWNER" && shopName && (
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-pink-500 drop-shadow-md">
+                {shopName}
+              </h2>
+            </div>
+          )}
           <h1 className="text-2xl font-bold text-center text-gray-800 mb-8">Products</h1>
           {loading ? (
             <div className="text-center text-gray-500">Loading products...</div>
@@ -265,8 +307,9 @@ const ProductsPage = () => {
                         <h2 className="font-bold text-lg">{product.name}</h2>
                         <p className="text-gray-600 mt-1">${product.price}</p>
                         <p className="text-sm text-gray-500 mt-1">In Stock: {product.stock}</p>
-                        <p className="text-sm text-gray-500 mt-1">Shop id: {product.shop_id}</p>
-
+                        {userRole === 'CUSTOMER' && (
+                          <p className="text-sm text-gray-500 mt-1">Shop: {product?.shop?.name}</p>
+                        )}
                         {userRole === 'CUSTOMER' && (
                           <button
                             onClick={(e) => {

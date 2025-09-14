@@ -71,10 +71,17 @@ GET        api/v1/products/view/{product}
 
 ### 🛒 Order Management Endpoints
 
+**⚠️ Important:** This API uses background jobs to process orders. Make sure to run the queue worker before calling this endpoint:
+> ```bash
+> php artisan queue:work
+> # or
+> php artisan queue:listen
+> ```
+
 #### `POST api/v1/place-order`
 **Purpose:** Place new orders  
 **Access:** Customer only  
-**Description:** Allows customers to create orders for multiple products from different shops. Supports multi-product ordering with proper inventory management and shop notifications.
+**Description:** Allows customers to create orders for multiple products from different shops. Supports multi-product ordering with proper inventory management and shop notifications. Customers can choose whether to allow partial orders (proceed even if some products are unavailable) or require all products to be available before processing the order.
 
 ---
 
@@ -84,8 +91,8 @@ GET        api/v1/products/view/{product}
 **Purpose:** Retrieve user notifications and activity logs  
 **Access:** All authenticated users  
 **Description:** Returns relevant notifications based on user role:
-- **Customers:** Order status updates, shipping notifications, and purchase confirmations
-- **Shop Owners:** New order alerts, inventory notifications, and sales updates
+- **Customers:** Notifications about orders placed or skipped due to inventory unavailability
+- **Shop Owners:** Notifications related to orders of their products
 
 ---
 

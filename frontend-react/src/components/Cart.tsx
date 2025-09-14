@@ -160,7 +160,7 @@ const Cart: React.FC<CartProps> = ({
               <span>${totalCartPrice}</span>
             </div>
             <div className="flex items-center justify-center mb-4">
-              <label htmlFor="partialOrder" className="mr-2 text-sm text-gray-700">
+              <label htmlFor="partialOrder" className="mr-2 text-md text-gray-700 font-semibold">
                 Allow partial order
               </label>
               <input
@@ -168,7 +168,7 @@ const Cart: React.FC<CartProps> = ({
                 id="partialOrder"
                 checked={allowPartialOrder}
                 onChange={(e) => setAllowPartialOrder(e.target.checked)}
-                className="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
+                className="form-checkbox h-5 w-5 text-blue-600 transition duration-150 ease-in-out"
               />
             </div>
             <button

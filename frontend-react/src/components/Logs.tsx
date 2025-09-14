@@ -40,14 +40,12 @@ const Logs: FC<LogsProps> = ({ isLogsOpen, setIsLogsOpen, onNewLogs }) => {
   const token = sessionStorage.getItem("token");
   const prevLastLogIdRef = useRef<number | null>(null);
 
-  // Use SWR to handle data fetching and revalidation for logs
   const { data: logs, error } = useSWR(
     token ? [`${API_BASE_URL}/logs`, token] : null,
     logFetcher,
-    { refreshInterval: 10000 } // Poll every 5 seconds
+    { refreshInterval: 15000 }
   );
 
-  // Check for new logs and trigger a notification
   useEffect(() => {
     if (logs && logs.length > 0) {
       const latestLogId = logs[0].id;

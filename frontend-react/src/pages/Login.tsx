@@ -26,6 +26,7 @@ const LoginPage = () => {
                 const { token, data } = response.data;
                 sessionStorage.setItem("token", token);
                 sessionStorage.setItem("role", data.role);
+                sessionStorage.setItem("shop_name", data?.shop?.name);
                 toast.success('Login successful!', {
                     position: "top-center",
                     autoClose: 1000,
