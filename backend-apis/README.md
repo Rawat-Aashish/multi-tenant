@@ -13,6 +13,8 @@ After setting up the project following the main README instructions, you can int
 4. Select the downloaded JSON file
 5. The collection will be imported with all pre-configured API endpoints
 
+**Here is the API documentation for the project: https://documenter.getpostman.com/view/36800566/2sB3HqGd2N**
+
 ## 🔗 API Endpoints Overview
 
 The following endpoints are available for interacting with the multi-tenant system:
