@@ -6,9 +6,12 @@ This folder contains the Laravel-based REST API backend for the multi-tenant e-c
 
 After setting up the project following the main README instructions, you can interact with these APIs using the provided Postman collection.
 
-Download the Postman collection file from the root directory of the project. Open it in Postman and import it into your Postman application.
-
-📎 **[Download Postman Collection JSON FILE](MULTI-TENANT E-comm.postman_collection.json)**
+**To use the Postman collection:**
+1. Download the [Collection.json](../multi-tenant-collection.json) file from the root directory
+2. Open Postman application
+3. Click "Import" in Postman
+4. Select the downloaded JSON file
+5. The collection will be imported with all pre-configured API endpoints
 
 ## 🔗 API Endpoints Overview
 
