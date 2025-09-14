@@ -55,14 +55,14 @@ class UserSeeder extends Seeder
             ],
             [
                 'recipient_id' => 1,
-                'recipient_type' => Shop::class,
+                'recipient_type' => User::class,
                 'message' => "This is a dummy notification for example",
                 'status' => "NEW ORDER",
                 'created_at' => now()
             ],
             [
-                'recipient_id' => 1,
-                'recipient_type' => Shop::class,
+                'recipient_id' => 2,
+                'recipient_type' => User::class,
                 'message' => "This is a dummy notification for example",
                 'status' => "NEW ORDER",
                 'created_at' => now()
