@@ -41,8 +41,8 @@ Before running this project, ensure you have the following installed on your sys
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/Rawat-Aashish/interview-task.git
-cd interview-task
+git clone https://github.com/Rawat-Aashish/multi-tenant.git
+cd multi-tenant
 ```
 
 ### Step 2: Backend Setup (Laravel APIs)
