@@ -18,7 +18,6 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'shop_id' => Shop::factory(),
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'password' => bcrypt('password'),
