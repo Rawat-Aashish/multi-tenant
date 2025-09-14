@@ -17,7 +17,7 @@ This implementation demonstrates:
 This project is organized into two main components:
 
 ```
-interview-task/
+multi-tenant/
 ├── backend-apis/     # Laravel API backend
 └── frontend-react/   # React frontend application
 ```
