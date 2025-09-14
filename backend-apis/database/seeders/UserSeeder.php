@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Customer;
+use App\Models\OrderNotification;
 use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -35,5 +37,40 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'role' => User::ROLE_SHOP_OWNER,
         ]);
+
+        $exampleNotifications = [
+            [
+                'recipient_id' => 1,
+                'recipient_type' => Customer::class,
+                'message' => "This is a dummy notification for example",
+                'status' => "ORDER PLACED",
+                'created_at' => now()
+            ],
+            [
+                'recipient_id' => 2,
+                'recipient_type' => Customer::class,
+                'message' => "This is a dummy notification for example",
+                'status' => "ORDER PLACED",
+                'created_at' => now()
+            ],
+            [
+                'recipient_id' => 1,
+                'recipient_type' => Shop::class,
+                'message' => "This is a dummy notification for example",
+                'status' => "NEW ORDER",
+                'created_at' => now()
+            ],
+            [
+                'recipient_id' => 1,
+                'recipient_type' => Shop::class,
+                'message' => "This is a dummy notification for example",
+                'status' => "NEW ORDER",
+                'created_at' => now()
+            ]
+        ];
+
+        foreach ($exampleNotifications as $notification) {
+            OrderNotification::insert($notification);
+        }
     }
 }

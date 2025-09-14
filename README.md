@@ -89,7 +89,7 @@ Both the backend and frontend should now be running successfully. The React appl
 
 ## 📚 Additional Resources
 
-- Backend API documentation: See `backend-apis/README.md`
-- Frontend component guide: See `frontend-react/README.md`
+- Backend API documentation: See [Readme.md](./backend-apis/README.md)
+- Frontend component guide: See [Readme.md](./frontend-react/README.md)
 
 ---
