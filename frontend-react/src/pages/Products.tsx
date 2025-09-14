@@ -94,7 +94,7 @@ const ProductsPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [token, currentPage, debouncedSearchQuery, navigate]); // ✅ dependency updated
+  }, [token, currentPage, debouncedSearchQuery, navigate]);
 
   useEffect(() => {
     fetchProducts();
@@ -121,7 +121,7 @@ const ProductsPage = () => {
         }
       });
       toast.success("Product deleted successfully!", { position: "top-center" });
-      fetchProducts(); // re-fetch after delete
+      fetchProducts();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         toast.error(error.response.data.message || 'Failed to delete product.', {
@@ -161,7 +161,7 @@ const ProductsPage = () => {
     try {
       await axios.post(
         `${API_BASE_URL}/logout`,
-        {}, // no body required
+        {},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -171,7 +171,6 @@ const ProductsPage = () => {
   
       toast.success('Logged out successfully.', { position: "top-center" });
     } catch (error) {
-      // even if API fails, clear session and redirect
       if (axios.isAxiosError(error) && error.response) {
         toast.error(error.response.data.message || 'Logout failed.', {
           position: "top-center",
@@ -306,7 +305,7 @@ const ProductsPage = () => {
                       <div className="p-4">
                         <h2 className="font-bold text-lg">{product.name}</h2>
                         <p className="text-gray-600 mt-1">${product.price}</p>
-                        <p className="text-sm text-gray-500 mt-1">In Stock: {product.stock}</p>
+                        <p className="text-sm text-gray-800 font-semibold mt-1">In Stock: {product.stock}</p>
                         {userRole === 'CUSTOMER' && (
                           <p className="text-sm text-gray-500 mt-1">Shop: {product?.shop?.name}</p>
                         )}

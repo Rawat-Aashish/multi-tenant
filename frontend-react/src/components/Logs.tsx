@@ -105,8 +105,17 @@ const Logs: FC<LogsProps> = ({ isLogsOpen, setIsLogsOpen, onNewLogs }) => {
       <div className="p-4 overflow-y-auto h-[calc(100%-60px)]">
         {logs && logs.length > 0 ? (
           logs.map((log) => (
-            <div key={log.id} className="bg-gray-100 p-3 rounded-lg mb-2 shadow-sm">
-              <p className="text-sm text-gray-600">Status: {log.status}</p>
+            <div 
+            key={log.id} 
+            className={`p-3 rounded-lg mb-2 shadow-sm ${
+              log.status === 'NEW ORDER' || log.status === 'ORDER PLACED' 
+                ? 'bg-green-50 border border-green-500' 
+                : log.status === 'ORDER SKIPPED'
+                ? 'bg-red-50 border border-red-500'
+                : 'bg-gray-100'
+            }`}
+          >
+              <p className="text-sm text-gray-600 font-semibold">{log.status}</p>
               <p className="text-sm font-semibold">{log.message}</p>
               <p className="text-xs text-gray-400 mt-1">Date: {new Date(log.created_at).toLocaleString()}</p>
             </div>

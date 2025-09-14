@@ -16,10 +16,11 @@ class ProductService
 {
     protected $partialOrdersAllowed;
     protected $customerId;
-    protected $isFromJob = false;
+    protected $isFromJob;
 
-    public function processOrder(array $request, int $customerId)
+    public function processOrder(array $request, int $customerId, bool $isFromJob = false)
     {
+        $this->isFromJob = $isFromJob;
         try {
             $this->partialOrdersAllowed = (bool)$request['allow_partial_order'];
             $this->customerId = $customerId;
@@ -65,7 +66,7 @@ class ProductService
                 'message' => __("messages.quantity_shortage"),
                 'status' => 0
             ];
-            
+
         return $result;
     }
 
@@ -188,12 +189,20 @@ class ProductService
     {
         $notifications = [];
 
+        $productIds = collect($skippedProducts)->pluck('product_id')->toArray();
+
+        $products = Product::select('id', 'name')->whereIn('id', $productIds)
+            ->pluck('name', 'id')
+            ->toArray();
+
         foreach ($skippedProducts as $product) {
+            $productName = $products[$product['product_id']] ?? 'Unknown Product';
+
             $notifications[] = [
                 'order_id' => null,
                 'recipient_id' => $this->customerId,
                 'recipient_type' => Customer::class,
-                'message' => "The product '{$product['product_id']}' (Qty: {$product['quantity']}) could not be added to your order due to insufficient stock.",
+                'message' => "The product '{$productName}' (Qty: {$product['quantity']}) could not be added to your order due to insufficient stock.",
                 'status' => Order::ORDER_SKIPPED,
                 'created_at' => now(),
                 'updated_at' => now(),

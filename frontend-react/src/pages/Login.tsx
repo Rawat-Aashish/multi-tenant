@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -33,7 +33,8 @@ const LoginPage = () => {
                 });
                 navigate('/products', { replace: true });
             } else {
-                toast.error(response.data.message ?? 'Login failed. something went wrong', {
+                console.log(response.data.message);
+                toast.error(response.data.message, {
                     position: "top-center",
                 });
             }
@@ -114,6 +115,7 @@ const LoginPage = () => {
                     </div>
                 </form>
             </div>
+            <ToastContainer />
         </div>
     );
 };

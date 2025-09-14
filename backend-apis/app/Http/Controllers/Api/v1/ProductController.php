@@ -28,7 +28,7 @@ class ProductController extends Controller
         }
 
         if($loggedInUser->role == Customer::ROLE_CUSTOMER){
-            $products = $products->with('shop');
+            $products = $products->with('shop')->inRandomOrder();
         }
 
         if ($request->has("search")) {

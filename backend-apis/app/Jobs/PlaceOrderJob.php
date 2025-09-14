@@ -26,6 +26,6 @@ class PlaceOrderJob implements ShouldQueue
      */
     public function handle(ProductService $productService): void
     {
-        $productService->processOrder($this->request, $this->customerId);
+        $productService->processOrder($this->request, $this->customerId, true);
     }
 }

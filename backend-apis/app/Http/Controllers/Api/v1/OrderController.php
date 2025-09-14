@@ -27,8 +27,12 @@ class OrderController extends Controller
     public function placeOrder(PlaceOrderRequest $request)
     {
         try {
-            // return $this->productService->processOrder($request->all(), Auth::user()->id);
             $customerId = Auth::user()->id;
+
+            //Un comment to run in foreground
+            // return $this->productService->processOrder($request->all(), $customerId);
+
+            // To run in background
             PlaceOrderJob::dispatch($request->all(), $customerId);
 
             return response()->json([
