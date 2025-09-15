@@ -16,6 +16,7 @@ class Customer extends Authenticatable
     public $table = 'customers';
 
     const ROLE_CUSTOMER = 'CUSTOMER';
+    const ORDER_FAILED = 'ORDER FAILED';
 
     //FILLABLE
     protected $fillable = [
